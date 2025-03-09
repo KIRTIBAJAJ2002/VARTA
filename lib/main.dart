@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'themes/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,12 +13,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'VARTA',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.theme,
       home: Scaffold(
-        body: Center(
-          child: Lottie.asset('assets/varta1.json'),
+        body: Container(
+          decoration: AppTheme.backgroundGradient,
+          child: Center(
+            child: Lottie.asset('assets/varta1.json'),
+          ),
         ),
       ),
     );

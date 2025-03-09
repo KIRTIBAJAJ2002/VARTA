@@ -27,7 +27,6 @@ class AppTheme {
           Colors.white,
           Color.fromARGB(255, 226, 214, 245), // Light Purple
           Color.fromARGB(255, 245, 212, 242), // Soft Pink
-          Color.fromARGB(255, 247, 255, 177), // Light Purple
           Colors.white,
         ],
       ),
