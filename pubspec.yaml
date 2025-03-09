@@ -61,6 +61,7 @@ flutter:
   assets:
     - assets/varta1.json
     - assets/wave.json
+    - assets/logo.png
     
   #   - images/a_dot_ham.jpeg
 

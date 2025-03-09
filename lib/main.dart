@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'themes/theme.dart';
+import 'navigation_bar.dart' as custom_navigation_bar;
+import 'intro_section.dart'; // Import the intro section
+import 'use_cases_section.dart'; // Import the use cases section
 
 void main() {
   runApp(const MyApp());
@@ -12,41 +15,55 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VARTA',
+      title: 'Varta',
       theme: AppTheme.theme,
       home: Scaffold(
         body: Container(
           decoration: AppTheme.backgroundGradient,
-          child: Center(
+          child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.asset('assets/varta1.json'),
-                const SizedBox(height: 40), // Add some space between the animation and the button
-                Column(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        // Handle button press here
-                        print('Get Started');
-                      },
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.transparent, // Make the button background transparent
-                        shadowColor: Colors.transparent, // Remove the default shadow
-                        padding: const EdgeInsets.all(0), // Remove default padding
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Make the tap target as small as possible
-                      ),
-                      child: const Text(
-                        'Get Started ',
-                        style: TextStyle(fontSize: 18, color: Colors.black),
-                      ),
+                custom_navigation_bar.NavigationBar(),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.asset('assets/varta1.json'),
+                        const SizedBox(height: 40),
+                        Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                print('Get Started');
+                              },
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                padding: const EdgeInsets.all(0),
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              ),
+                              child: const Text(
+                                'Get Started ',
+                                style: TextStyle(fontSize: 18, color: Colors.black),
+                              ),
+                            ),
+                            Lottie.asset(
+                              'assets/wave.json',
+                              width: 200,
+                              height: 60,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 40),
+                        IntroSection(), // Add the intro section
+                        SizedBox(height: 20),
+                        UseCasesSection(), // Add the use cases section
+                        SizedBox(height: 40),
+                      ],
                     ),
-                    Lottie.asset(
-                      'assets/wave.json', // Use your Lottie file for the button background
-                      width: 200, // Adjust the width to fit your button size
-                      height: 60, // Adjust the height to fit your button size
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),
