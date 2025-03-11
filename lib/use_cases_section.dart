@@ -1,80 +1,74 @@
 import 'package:flutter/material.dart';
 
 class UseCasesSection extends StatelessWidget {
+  const UseCasesSection({Key? key}) : super(key: key); // Accepting key
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center, // Center the heading
-        children: [
-          Text(
-            'Use Cases',
-            textAlign: TextAlign.center, // Ensure text is centered
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+    double width = MediaQuery.of(context).size.width;
+    double containerWidth = width > 1200 ? 1000 : width * 0.9;
+    int crossAxisCount = 4; // Always 4 columns
+
+    return Center(
+      child: Container(
+        width: containerWidth,
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            const Text(
+              'Use Cases',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-          ),
-          SizedBox(height: 20),
-          GridView.builder(
-            shrinkWrap: true, // Ensures GridView takes only required space
-            physics: NeverScrollableScrollPhysics(), // Disable scrolling inside GridView
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4, // 4 boxes in a row
-              crossAxisSpacing: 15, // Reduce spacing for compact look
-              mainAxisSpacing: 15, // Reduce spacing for compact look
-              childAspectRatio: 1.2, // Makes the cards smaller (Adjust as needed)
+            const SizedBox(height: 20),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                crossAxisSpacing: 15,
+                mainAxisSpacing: 15,
+                childAspectRatio: 0.7, // Vertical rectangle (height > width)
+              ),
+              itemCount: 8,
+              itemBuilder: (context, index) {
+                List<Map<String, String>> useCases = [
+                  {'title': 'Data Analysis', 'description': 'Extract insights from datasets with AI-driven analytics.'},
+                  {'title': 'Code Generation', 'description': 'Generate structured and optimized code snippets.'},
+                  {'title': 'Research Assistance', 'description': 'Conduct thorough research and summarize findings.'},
+                  {'title': 'Predictive Analytics', 'description': 'Forecast trends using AI and machine learning.'},
+                  {'title': 'Automation', 'description': 'Automate repetitive tasks for enhanced productivity.'},
+                  {'title': 'Content Creation', 'description': 'Generate engaging articles, blogs, and copies.'},
+                  {'title': 'Customer Support', 'description': 'Deploy AI-powered chatbots for instant support.'},
+                  {'title': 'Fraud Detection', 'description': 'Identify anomalies and detect fraudulent activities.'},
+                ];
+                return _buildUseCaseCard(useCases[index]['title']!, useCases[index]['description']!);
+              },
             ),
-            itemCount: 8, // 8 boxes
-            itemBuilder: (context, index) {
-              List<Map<String, String>> useCases = [
-                {'title': 'Data Analysis', 'description': 'Analyze datasets and generate insights.'},
-                {'title': 'Code Generation', 'description': 'Generate code snippets and programs.'},
-                {'title': 'Research Assistance', 'description': 'Conduct research and gather information.'},
-                {'title': 'Predictive Analytics', 'description': 'Use AI to forecast trends.'},
-                {'title': 'Automation', 'description': 'Streamline repetitive tasks and workflows.'},
-                {'title': 'Content Creation', 'description': 'Generate articles and creative content.'},
-                {'title': 'Customer Support', 'description': 'Provide AI-driven chatbots.'},
-                {'title': 'Security & Fraud Detection', 'description': 'Detect anomalies and prevent fraud.'},
-              ];
-              
-              return _buildUseCaseCard(
-                title: useCases[index]['title']!,
-                description: useCases[index]['description']!,
-              );
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildUseCaseCard({required String title, required String description}) {
-    return Container(
-      padding: EdgeInsets.all(10.0), // Reduce padding inside cards
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8.0), // Slightly smaller rounded corners
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 16, // Reduce title size
-              fontWeight: FontWeight.bold,
+  Widget _buildUseCaseCard(String title, String description) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Expanded(
+              child: Text(
+                description,
+                style: const TextStyle(fontSize: 14, color: Colors.black87),
+              ),
             ),
-          ),
-          SizedBox(height: 5), // Reduce space between title and text
-          Expanded(
-            child: Text(
-              description,
-              style: TextStyle(fontSize: 12), // Reduce description font size
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

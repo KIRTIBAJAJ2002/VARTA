@@ -1,41 +1,78 @@
 import 'package:flutter/material.dart';
 
 class NavigationBar extends StatelessWidget {
+  final Function(GlobalKey) onItemSelected;
+  final GlobalKey introKey;
+  final GlobalKey useCasesKey;
+  final GlobalKey benchmarksKey;
+
+  const NavigationBar({
+    Key? key,
+    required this.onItemSelected,
+    required this.introKey,
+    required this.useCasesKey,
+    required this.benchmarksKey,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical:12,horizontal: 40),
-      color: Colors.white,
-      child: Center(  // Wrap the content in a Center widget
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,  // Center the content horizontally
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildMenuItem('Intro'),
-            SizedBox(width: 20),
-            _buildMenuItem('Use cases'),
-            SizedBox(width: 20),
-            _buildMenuItem('Benchmarks'),
-            SizedBox(width: 20),
-            _buildNotificationIcon(),
-            SizedBox(width: 20),
-            _buildCenteredGetStartedButton(context),
-          ],
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isMobile = constraints.maxWidth < 768;
+        bool isTablet = constraints.maxWidth >= 768 && constraints.maxWidth < 1024;
+
+        return Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 12, horizontal: isMobile ? 20 : 40),
+          color: Colors.white,
+          child: isMobile
+              ? _buildMobileNav()
+              : Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildMenuItem('About us', introKey),
+                      SizedBox(width: isTablet ? 15 : 20),
+                      _buildMenuItem('Use Cases', useCasesKey),
+                      SizedBox(width: isTablet ? 15 : 20),
+                      _buildMenuItem('Benchmarks', benchmarksKey), // ✅ Benchmarks moved before notification
+                      SizedBox(width: isTablet ? 15 : 20),
+                      _buildNotificationIcon(), // ✅ Notification moved after benchmarks
+                      SizedBox(width: isTablet ? 15 : 20),
+                      _buildCenteredGetStartedButton(context),
+                    ],
+                  ),
+                ),
+        );
+      },
     );
   }
 
-  Widget _buildMenuItem(String text) {
+  Widget _buildMobileNav() {
+    return Column(
+      children: [
+        _buildMenuItem('About us', introKey),
+        SizedBox(height: 10),
+        _buildMenuItem('Use Cases', useCasesKey),
+        SizedBox(height: 10),
+        _buildMenuItem('Benchmarks', benchmarksKey), // ✅ Moved before notification
+        SizedBox(height: 10),
+        _buildNotificationIcon(), // ✅ Notification moved after benchmarks
+        SizedBox(height: 10),
+        _buildCenteredGetStartedButton(null),
+      ],
+    );
+  }
+
+  Widget _buildMenuItem(String text, GlobalKey key) {
     return InkWell(
       onTap: () {
-        // Add navigation logic here
-        print('$text tapped');
+        onItemSelected(key); // Navigate to section
       },
       child: Text(
         text,
-        style: TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
@@ -44,21 +81,21 @@ class NavigationBar extends StatelessWidget {
     return IconButton(
       icon: Stack(
         children: [
-          Icon(Icons.notifications),
+          const Icon(Icons.notifications),
           Positioned(
             right: 0,
             top: 0,
             child: Container(
-              padding: EdgeInsets.all(1),
+              padding: const EdgeInsets.all(1),
               decoration: BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(6),
               ),
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 minWidth: 12,
                 minHeight: 12,
               ),
-              child: Text(
+              child: const Text(
                 '1',
                 style: TextStyle(
                   color: Colors.white,
@@ -70,28 +107,25 @@ class NavigationBar extends StatelessWidget {
           ),
         ],
       ),
-      onPressed: () {
-        // Add notification logic here
-      },
+      onPressed: () {},
     );
   }
 
-  Widget _buildCenteredGetStartedButton(BuildContext context) {
+  Widget _buildCenteredGetStartedButton(BuildContext? context) {
     return ElevatedButton(
       onPressed: () {
-        // Add "Get Started" logic here
-        print('Get Started');
+        print('Contact us');
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        textStyle: TextStyle(fontSize: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        textStyle: const TextStyle(fontSize: 16),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30), // Make the button rounded
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
-      child: Text('Get Started'),
+      child: const Text('Contact us'),
     );
   }
 }
