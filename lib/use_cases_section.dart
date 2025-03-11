@@ -28,18 +28,33 @@ class UseCasesSection extends StatelessWidget {
                 mainAxisSpacing: 15,
                 childAspectRatio: 0.8, // Adjusted for better layout
               ),
-              itemCount: 6, // Changed to 9 for a 3x3 grid
+              itemCount: 6, // Changed to 6 for a 3x2 grid
               itemBuilder: (context, index) {
                 List<Map<String, String>> useCases = [
-                  {'title': 'Data Analysis', 'description': 'Extract insights from datasets with AI-driven analytics.'},
-                  {'title': 'Code Generation', 'description': 'Generate structured and optimized code snippets.'},
-                  {'title': 'Research Assistance', 'description': 'Conduct thorough research and summarize findings.'},
-                  {'title': 'Predictive Analytics', 'description': 'Forecast trends using AI and machine learning.'},
-                  {'title': 'Automation', 'description': 'Automate repetitive tasks for enhanced productivity.'},
-                  {'title': 'Content Creation', 'description': 'Generate engaging articles, blogs, and copies.'},
-                  {'title': 'Customer Support', 'description': 'Deploy AI-powered chatbots for instant support.'},
-                  {'title': 'Fraud Detection', 'description': 'Identify anomalies and detect fraudulent activities.'},
-                  {'title': 'Cybersecurity', 'description': 'Enhance security with AI-driven threat detection.'},
+                  {
+                    'title': 'Customer Service Automation',
+                    'description': 'Automate customer support calls with AI-powered voice assistants.'
+                  },
+                  {
+                    'title': 'Language Translation',
+                    'description': 'Enable real-time language translation for global customer interactions.'
+                  },
+                  {
+                    'title': 'Speech Analytics',
+                    'description': 'Analyze customer calls to improve service quality and identify trends.'
+                  },
+                  {
+                    'title': 'Voice-Activated Booking Systems',
+                    'description': 'Implement voice-activated systems for booking appointments or services.'
+                  },
+                  {
+                    'title': 'Personalized Voice Interactions',
+                    'description': 'Provide personalized customer experiences through tailored voice interactions.'
+                  },
+                  {
+                    'title': 'Virtual Assistants for Accessibility',
+                    'description': 'Develop AI-powered virtual assistants to aid individuals with speech or hearing impairments.'
+                  },
                 ];
                 return _buildUseCaseCard(useCases[index]['title']!, useCases[index]['description']!);
               },
@@ -61,7 +76,7 @@ class UseCasesSection extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 15),
             Expanded(
