@@ -19,31 +19,17 @@ class NavigationBar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         bool isMobile = constraints.maxWidth < 768;
-        bool isTablet = constraints.maxWidth >= 768 && constraints.maxWidth < 1024;
 
         return Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 12, horizontal: isMobile ? 20 : 40),
+          padding: EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: isMobile ? 20 : 40,
+          ),
           color: Colors.white,
           child: isMobile
               ? _buildMobileNav()
-              : Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildMenuItem('About us', introKey),
-                      SizedBox(width: isTablet ? 15 : 20),
-                      _buildMenuItem('Use Cases', useCasesKey),
-                      SizedBox(width: isTablet ? 15 : 20),
-                      _buildMenuItem('Benchmarks', benchmarksKey), // ✅ Benchmarks moved before notification
-                      SizedBox(width: isTablet ? 15 : 20),
-                      _buildNotificationIcon(), // ✅ Notification moved after benchmarks
-                      SizedBox(width: isTablet ? 15 : 20),
-                      _buildCenteredGetStartedButton(context),
-                    ],
-                  ),
-                ),
+              : _buildDesktopNav(),
         );
       },
     );
@@ -53,23 +39,39 @@ class NavigationBar extends StatelessWidget {
     return Column(
       children: [
         _buildMenuItem('About us', introKey),
-        SizedBox(height: 10),
         _buildMenuItem('Use Cases', useCasesKey),
-        SizedBox(height: 10),
-        _buildMenuItem('Benchmarks', benchmarksKey), // ✅ Moved before notification
-        SizedBox(height: 10),
-        _buildNotificationIcon(), // ✅ Notification moved after benchmarks
-        SizedBox(height: 10),
+        _buildMenuItem('Benchmarks', benchmarksKey),
+        _buildNotificationIcon(),
         _buildCenteredGetStartedButton(null),
-      ],
+      ].map((child) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: child,
+          )).toList(),
+    );
+  }
+
+  Widget _buildDesktopNav() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildMenuItem('About us', introKey),
+          _buildMenuItem('Use Cases', useCasesKey),
+          _buildMenuItem('Benchmarks', benchmarksKey),
+          _buildNotificationIcon(),
+          _buildCenteredGetStartedButton(null),
+        ].map((child) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: child,
+            )).toList(),
+      ),
     );
   }
 
   Widget _buildMenuItem(String text, GlobalKey key) {
     return InkWell(
-      onTap: () {
-        onItemSelected(key); // Navigate to section
-      },
+      onTap: () => onItemSelected(key),
       child: Text(
         text,
         style: const TextStyle(fontSize: 16),
@@ -113,9 +115,7 @@ class NavigationBar extends StatelessWidget {
 
   Widget _buildCenteredGetStartedButton(BuildContext? context) {
     return ElevatedButton(
-      onPressed: () {
-        print('Contact us');
-      },
+      onPressed: () => print('Contact us'),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,

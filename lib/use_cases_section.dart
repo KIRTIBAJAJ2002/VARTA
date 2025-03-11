@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
 class UseCasesSection extends StatelessWidget {
-  const UseCasesSection({Key? key}) : super(key: key); // Accepting key
+  const UseCasesSection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double containerWidth = width > 1200 ? 1000 : width * 0.9;
-    int crossAxisCount = 4; // Always 4 columns
+    double containerWidth = width > 1200 ? 900 : width * 0.9;
 
     return Center(
       child: Container(
@@ -24,12 +23,12 @@ class UseCasesSection extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
+                crossAxisCount: 3,
                 crossAxisSpacing: 15,
                 mainAxisSpacing: 15,
-                childAspectRatio: 0.7, // Vertical rectangle (height > width)
+                childAspectRatio: 0.8, // Adjusted for better layout
               ),
-              itemCount: 8,
+              itemCount: 6, // Changed to 9 for a 3x3 grid
               itemBuilder: (context, index) {
                 List<Map<String, String>> useCases = [
                   {'title': 'Data Analysis', 'description': 'Extract insights from datasets with AI-driven analytics.'},
@@ -40,6 +39,7 @@ class UseCasesSection extends StatelessWidget {
                   {'title': 'Content Creation', 'description': 'Generate engaging articles, blogs, and copies.'},
                   {'title': 'Customer Support', 'description': 'Deploy AI-powered chatbots for instant support.'},
                   {'title': 'Fraud Detection', 'description': 'Identify anomalies and detect fraudulent activities.'},
+                  {'title': 'Cybersecurity', 'description': 'Enhance security with AI-driven threat detection.'},
                 ];
                 return _buildUseCaseCard(useCases[index]['title']!, useCases[index]['description']!);
               },
@@ -52,19 +52,24 @@ class UseCasesSection extends StatelessWidget {
 
   Widget _buildUseCaseCard(String title, String description) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 6, // Increased elevation for better depth effect
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        padding: const EdgeInsets.all(20.0), // Increased padding for better spacing
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+            ),
+            const SizedBox(height: 15),
             Expanded(
               child: Text(
                 description,
-                style: const TextStyle(fontSize: 14, color: Colors.black87),
+                style: const TextStyle(fontSize: 15, color: Colors.black87),
+                maxLines: 3, // Added maxLines to prevent overflow
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],
