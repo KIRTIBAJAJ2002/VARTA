@@ -20,10 +20,15 @@ class IntroSection extends StatelessWidget {
             style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 20),
+          Text(
+            'The perfect Vartalaap, every time.',
+            style: const TextStyle(fontSize: 15, color: Colors.black87),
+          ),
+          const SizedBox(height: 10),
           SizedBox(
             width: width * (width > 600 ? 0.6 : 0.9),
             child: Text(
-              'Varta is a general AI agent that bridges minds and actions, delivering results efficiently.',
+              'Varta. Conversations, elevated. Experience the art of refined communication, where every interaction is crafted to be seamless, sophisticated, and meaningful.',
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 18, height: 1.5, color: Colors.black87),
             ),
