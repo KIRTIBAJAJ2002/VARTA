@@ -4,7 +4,9 @@ import 'themes/theme.dart';
 import 'navigation_bar.dart' as custom_navigation_bar;
 import 'intro_section.dart';
 import 'use_cases_section.dart';
-import 'footer.dart'; // Importing Footer
+import 'footer.dart';
+import 'assistant_page.dart'; // Import the AssistantPage
+import 'benchmarks_page.dart'; // Import the BenchmarksSection
 
 void main() {
   runApp(const MyApp());
@@ -12,33 +14,36 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Varta',
       theme: AppTheme.theme,
-      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/assistant': (context) => AssistantPage(),
+      },
     );
   }
 }
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
+  
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
-
+  
   // Keys for sections
   final GlobalKey _introKey = GlobalKey();
   final GlobalKey _useCasesKey = GlobalKey();
-  final GlobalKey _benchmarksKey = GlobalKey(); // Add this line
-
-
+  final GlobalKey _benchmarksKey = GlobalKey();
+  
   void _scrollToSection(GlobalKey key) {
     final context = key.currentContext;
     if (context != null) {
@@ -49,24 +54,25 @@ class _HomePageState extends State<HomePage> {
       );
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: AppTheme.backgroundGradient,
         child: CustomScrollView(
-          controller: _scrollController, // Attach scroll controller
+          controller: _scrollController,
           slivers: [
+            // Navigation Bar at the top
             SliverToBoxAdapter(
               child: custom_navigation_bar.NavigationBar(
-                onItemSelected: _scrollToSection, // Pass function to Navbar
+                onItemSelected: _scrollToSection,
                 introKey: _introKey,
                 useCasesKey: _useCasesKey,
-                  benchmarksKey: _benchmarksKey, // Pass the new key
-
+                benchmarksKey: _benchmarksKey, // Not used here since benchmarks is separate
               ),
             ),
+            // Main content
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -78,7 +84,13 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         TextButton(
                           onPressed: () {
-                            print('Get Started');
+                            // Navigate to transition page that briefly shows wave.json before AssistantPage
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WaveTransitionPage(),
+                              ),
+                            );
                           },
                           child: const Text(
                             'Get Started',
@@ -89,17 +101,49 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 40),
-                    IntroSection(key: _introKey), // Assign key
+                    IntroSection(key: _introKey),
                     const SizedBox(height: 20),
-                    UseCasesSection(key: _useCasesKey), // Assign key
+                    UseCasesSection(key: _useCasesKey),
+                    const SizedBox(height: 40),
+                    // Benchmarks Section (inserted below Use Cases)
+                    const BenchmarksSection(),
                     const SizedBox(height: 40),
                   ],
                 ),
               ),
             ),
-            SliverToBoxAdapter(child: Footer()), // Footer remains unchanged
+            // Footer at the bottom
+            const SliverToBoxAdapter(child: Footer()),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// Transition page that plays wave.json briefly before navigating to AssistantPage
+class WaveTransitionPage extends StatefulWidget {
+  const WaveTransitionPage({Key? key}) : super(key: key);
+  
+  @override
+  _WaveTransitionPageState createState() => _WaveTransitionPageState();
+}
+
+class _WaveTransitionPageState extends State<WaveTransitionPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Delay for 1000 milliseconds then navigate to AssistantPage
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      Navigator.pushReplacementNamed(context, '/assistant');
+    });
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Lottie.asset('assets/wave.json', width: 200, height: 60),
       ),
     );
   }

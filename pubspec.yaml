@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   lottie: ^3.3.1
+  vertical_card_pager: ^1.6.3
 
 
   # The following adds the Cupertino Icons font to your application.
