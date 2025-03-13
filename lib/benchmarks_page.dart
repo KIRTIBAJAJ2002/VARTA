@@ -4,17 +4,15 @@ import 'package:vertical_card_pager/vertical_card_pager.dart';
 class BenchmarksSection extends StatelessWidget {
   const BenchmarksSection({Key? key}) : super(key: key);
 
-  // List of 4 slider items
   final List<String> sliderItems = const [
-    "Benchmark 1: Performance is top-notch.",
-    "Benchmark 2: Scalability exceeds expectations.",
-    "Benchmark 3: Reliability is industry-leading.",
-    "Benchmark 4: Exceptional security and integration.",
-  ];
-
-  @override
+    "Benchmark 1: Speech Recognition Accuracy",
+    "Benchmark 2: Customer Satisfaction Rate",
+    "Benchmark 3: Reduction in Call Handling Time",
+    "Benchmark 4: Uptime and Reliability",
+  ]; @override
   Widget build(BuildContext context) {
-    // Build a list of card widgets from the slider items.
+    double width = MediaQuery.of(context).size.width;
+
     final List<Widget> cards = sliderItems.map((note) {
       return Card(
         elevation: 10,
@@ -29,7 +27,7 @@ class BenchmarksSection extends StatelessWidget {
             child: Center(
               child: Text(
                 note,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: width > 600 ? 18 : 14),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -38,7 +36,6 @@ class BenchmarksSection extends StatelessWidget {
       );
     }).toList();
 
-    // Provide required titles as a list of empty strings.
     final List<String> titles = List.generate(sliderItems.length, (_) => '');
 
     return Center(
@@ -47,14 +44,14 @@ class BenchmarksSection extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'Benchmarks',
-              style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: width > 600 ? 36 : 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
             SizedBox(
-              height: 600, // Increased height for the carousel
+              height: width > 600 ? 600 : 400, // Adjusted height for smaller screens
               child: VerticalCardPager(
                 titles: titles,
                 images: cards,
