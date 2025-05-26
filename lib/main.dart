@@ -5,7 +5,7 @@ import 'navigation_bar.dart' as custom_navigation_bar;
 import 'intro_section.dart';
 import 'use_cases_section.dart';
 import 'footer.dart';
-import 'assistant_page.dart'; // Import the AssistantPage
+import 'voice_client_page.dart'; // ✅ correct import
 import 'benchmarks_page.dart'; // Import the BenchmarksSection
 
 void main() {
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
-        '/assistant': (context) => AssistantPage(),
+        '/assistant': (context) => const VoiceClientPage(), // ✅ Add this
       },
     );
   }
